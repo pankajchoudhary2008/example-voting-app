@@ -1,4 +1,5 @@
-FROM openjdk:8-jdk-buster
+FROM bellsoft/liberica-openjdk-alpine-musl:11
+
 RUN MAVEN_VERSION=3.3.3 \
  && cd /usr/share \
  && wget http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz -O - | tar xzf - \
@@ -14,4 +15,5 @@ RUN ["mvn", "verify"]
 # Adding source, compile and package into a fat jar
 ADD src/main /code/src/main
 RUN ["mvn", "package"]
+
 CMD ["java", "-jar", "target/worker-jar-with-dependencies.jar"]
